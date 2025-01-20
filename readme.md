@@ -1,7 +1,7 @@
 # Weirdest Food Combinations Ever Tried
 
 ## Project Background
-This is a fun and interactive web application where users can submit, view, rate, and share weird food combinations they have tried or heard of. The purpose of this project is to create a platform where users can discover interesting food combinations, rate them, and even contribute their own unique entries to the list.
+This is a fun and interactive web application where users can submit, view, rate, and share weird food combinations they have tried or heard of. The purpose of this project is to create a platform where users can discover interesting food combinations, rate them, and even contribute their own unique entries to the list
 
 This project also serves as an educational resource, demonstrating concepts from backend API development to frontend design and deployment. It is a hands-on learning experience for building a full-stack application.
 
