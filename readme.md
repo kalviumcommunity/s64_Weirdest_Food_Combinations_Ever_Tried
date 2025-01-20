@@ -39,8 +39,6 @@ This project also serves as an educational resource, demonstrating concepts from
 
 ### Frontend
 - **React**: Building the user interface.
-- **Vite**: Fast and modern React app setup.
-- **Axios**: API integration.
 - **React Router**: Routing and navigation.
 - **CSS/Styled Components**: Styling the app.
 
@@ -49,17 +47,20 @@ This project also serves as an educational resource, demonstrating concepts from
 - **Express.js**: Framework for building APIs.
 - **MongoDB**: Database management.
 - **Mongoose**: Interaction with MongoDB.
-- **JWT** or **Session-based Authentication**: User authentication.
-- **Bcrypt.js**: Password hashing.
+- 
 
 ### Deployment
 - **Frontend**: Netlify or Vercel.
 - **Backend**: Heroku, Render, or Vercel.
 - **Database**: MongoDB Atlas (cloud hosting).
 
-### Optional Tools
-- **Firebase Authentication**: Simplified user authentication.
-- **Redis**: For caching.
-- **Docker**: Containerization for easier deployment.
 
----
+- **Firebase Authentication**: Simplified user authentication.
+
+
+
+
+
+
+
+
