@@ -55,7 +55,7 @@ This project also serves as an educational resource, demonstrating concepts from
 - **Database**: MongoDB Atlas (cloud hosting).
 
 
-- **Firebase Authentication**: Simplified user authentication.
+- **Firebase Authentication**: Simplified user authentication...gi
 
 
 
