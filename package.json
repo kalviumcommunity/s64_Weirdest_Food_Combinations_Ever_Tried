@@ -1,8 +1,8 @@
 {
   "name": "s64_Weirdest_Food_Combinations_Ever_Tried",
   "version": "1.0.0",
-  "description": " hbhvg",
-  "main": "index.js",
+  "description": "----",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
