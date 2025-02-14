@@ -58,6 +58,7 @@ This project also serves as an educational resource, demonstrating concepts from
 - **Firebase Authentication**: Simplified user authentication......
 
 Render Link-https://s64-weirdest-food-combinations-ever-zt2d.onrender.com
+Netify Link-https://asapdeploy.netlify.app/
 
 
 
