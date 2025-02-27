@@ -1,19 +1,42 @@
-require("dotenv").config(); // Load environment variables
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const FoodCombo = require("./models/schema");
 
-// MongoDB Connection Function
-const connectDB = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-        console.log("✅ MongoDB Connected Successfully!");
-    } catch (error) {
-        console.error("❌ MongoDB Connection Error:", error);
-        process.exit(1); // Exit process on failure
+dotenv.config();
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log("MongoDB connected"))
+    .catch(err => console.log(err));
+
+const sampleFoodCombos = [
+    {
+        name: "Burger & Ice Cream",
+        ingredients: ["Burger", "Ice Cream"],
+        rating: 4,
+        image: "/assets/weirdFoodCom/burger_ice_cream.png", 
+    },
+    {
+        name: "Pizza & Banana",
+        ingredients: ["Pizza", "Banana"],
+        rating: 3,
+        image: "/assets/weirdFoodCom/pizza_banana.jpg",
+    },
+    {
+        name: "Fries & Chocolate",
+        ingredients: ["Fries", "Chocolate"],
+        rating: 5,
+        image: "/assets/weirdFoodCom/fries_chocolate.png",
+    },
+    {
+        name: "Popcorn & Ketchup",
+        ingredients: ["Popcorn", "Ketchup"],
+        rating: 2,
+        image: "/assets/weirdFoodCom/popcorn_ketchup.png",
     }
-};
+];
 
-// Export the connection function
-module.exports = connectDB;
+FoodCombo.insertMany(sampleFoodCombos)
+    .then(() => {
+        console.log("Sample food combos added!");
+        mongoose.connection.close();
+    })
+    .catch(err => console.log(err));
