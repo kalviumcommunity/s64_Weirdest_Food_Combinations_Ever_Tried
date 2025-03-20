@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
-const foodComboSchema = new mongoose.Schema({
+const FoodComboSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  ingredients: [String],
-  rating: { type: Number, min: 1, max: 5, default: 3 },
-  image: { type: String, required: true }, // Added image field
-}, { timestamps: true });
+  ingredients: { type: [String], required: true },
+  calories: { type: Number, required: true },
+  created_by: { type: String, required: true } // ✅ Add created_by field
+});
 
-module.exports = mongoose.model("FoodCombo", foodComboSchema);
+module.exports = mongoose.model("FoodCombo", FoodComboSchema);
