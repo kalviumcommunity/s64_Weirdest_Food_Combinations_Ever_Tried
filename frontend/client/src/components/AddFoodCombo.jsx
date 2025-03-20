@@ -1,118 +1,137 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-const AddFoodCombo = ({ onComboAdded }) => {
+const AddFoodCombo = () => {
   const [name, setName] = useState("");
-  const [image, setImage] = useState("");
-  const [description, setDescription] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [ingredients, setIngredients] = useState("");
+  const [calories, setCalories] = useState("");
+  const [users, setUsers] = useState([]); // Store users for the dropdown
+  const [createdBy, setCreatedBy] = useState(""); // Selected user
+
+  // Fetch users on component mount
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/users")
+      .then((response) => setUsers(response.data))
+      .catch((error) => console.error("Error fetching users:", error));
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    const newCombo = { name, image, description };
+    const foodCombo = {
+      name,
+      ingredients: ingredients.split(",").map((item) => item.trim()), // Convert string to array
+      calories: Number(calories),
+      created_by: createdBy, // Include selected user
+    };
 
     try {
-      const response = await fetch("http://localhost:3000/api/food-combos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newCombo),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to add food combo");
-      }
-
-      const addedCombo = await response.json();
-      onComboAdded(addedCombo); // Update the list
+      const response = await axios.post("http://localhost:5000/food-combos", foodCombo);
+      console.log("Food combo added:", response.data);
       setName("");
-      setImage("");
-      setDescription("");
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+      setIngredients("");
+      setCalories("");
+      setCreatedBy("");
+    } catch (error) {
+      console.error("Error adding food combo:", error);
     }
   };
 
+  // Inline Styles
+  const styles = {
+    container: {
+      maxWidth: "400px",
+      margin: "auto",
+      padding: "20px",
+      borderRadius: "8px",
+      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+      background: "#fff",
+      fontFamily: "Arial, sans-serif",
+    },
+    heading: {
+      textAlign: "center",
+      color: "#333",
+    },
+    form: {
+      display: "flex",
+      flexDirection: "column",
+    },
+    label: {
+      fontWeight: "bold",
+      marginTop: "10px",
+    },
+    input: {
+      padding: "8px",
+      marginTop: "5px",
+      border: "1px solid #ccc",
+      borderRadius: "4px",
+    },
+    button: {
+      marginTop: "15px",
+      padding: "10px",
+      backgroundColor: "#28a745",
+      color: "white",
+      border: "none",
+      borderRadius: "4px",
+      cursor: "pointer",
+    },
+    buttonHover: {
+      backgroundColor: "#218838",
+    },
+  };
+
   return (
-    <div style={styles.formContainer}>
-      <h2>Add a New Weird Food Combo</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div style={styles.container}>
+      <h2 style={styles.heading}>Add a New Food Combo</h2>
       <form onSubmit={handleSubmit} style={styles.form}>
+        <label style={styles.label}>Name:</label>
         <input
           type="text"
-          placeholder="Food Combo Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
           style={styles.input}
         />
+
+        <label style={styles.label}>Ingredients (comma-separated):</label>
         <input
           type="text"
-          placeholder="Image URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+          value={ingredients}
+          onChange={(e) => setIngredients(e.target.value)}
           required
           style={styles.input}
         />
-        <textarea
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+
+        <label style={styles.label}>Calories:</label>
+        <input
+          type="number"
+          value={calories}
+          onChange={(e) => setCalories(e.target.value)}
           required
-          style={styles.textarea}
+          style={styles.input}
         />
-        <button type="submit" disabled={loading} style={styles.button}>
-          {loading ? "Adding..." : "Add Combo"}
+
+        <label style={styles.label}>Created By:</label>
+        <select value={createdBy} onChange={(e) => setCreatedBy(e.target.value)} required style={styles.input}>
+          <option value="">Select a User</option>
+          {users.map((user) => (
+            <option key={user._id} value={user._id}>
+              {user.username}
+            </option>
+          ))}
+        </select>
+
+        <button
+          type="submit"
+          style={styles.button}
+          onMouseOver={(e) => (e.target.style.backgroundColor = styles.buttonHover.backgroundColor)}
+          onMouseOut={(e) => (e.target.style.backgroundColor = styles.button.backgroundColor)}
+        >
+          Add Food Combo
         </button>
       </form>
     </div>
   );
 };
 
-const styles = {
-  formContainer: {
-    maxWidth: "400px",
-    margin: "20px auto",
-    padding: "20px",
-    background: "white",
-    borderRadius: "10px",
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-    textAlign: "center",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
-  },
-  input: {
-    padding: "10px",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
-    fontSize: "1rem",
-  },
-  textarea: {
-    padding: "10px",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
-    fontSize: "1rem",
-    minHeight: "60px",
-  },
-  button: {
-    padding: "10px",
-    backgroundColor: "#ff5733",
-    color: "white",
-    fontSize: "1rem",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-  },
-};
-
 export default AddFoodCombo;
-
-
-
